@@ -1,0 +1,18 @@
+{
+    "Disabled": [
+		false,
+		"bool"
+	],
+    "IncludeInMobile": [
+		true,
+		"bool"
+	],
+    "IncludeInDesktop": [
+		false,
+		"bool"
+	],
+    "RequireInMobile": [
+		["SettingsWebclient"],
+		"array"
+	]
+}

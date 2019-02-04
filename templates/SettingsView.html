@@ -1,0 +1,31 @@
+<div class="screen SettingsLayout" style="display: none;">
+	<div class="panels settings">
+		<div class="page">
+			<div class="page-content">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+						<!-- ko foreach: tabs -->
+						<div data-bind="visible: typeof(view.visible) !== 'undefined' ? view.visible() : true, 
+								attr: {'class': 'center sliding item canSelect ' + name}, 
+								css: {'selected': $parent.currentTab() && $parent.currentTab().name === name}, 
+								click: function () { $parent.changeTab(name); }, text: view.SettingsTabTitle"></div>
+						<!-- /ko -->
+
+						<div class="right">
+							<a href="javascript:void(0)" class="link icon-only open-panel aurora-icons settings" data-bind="click: function () { showApps(!showApps()); }"><i class="icon"></i></a>
+						</div>
+					</div>
+				</div>
+				<div data-bind="with: currentTab">
+					<div data-bind="attr: {'class': 'middle_bar ' + name}">
+						<!-- ko template: {name: view.ViewTemplate, data: view} --><!-- /ko -->
+						<div data-bind="foreach: view.aSettingsSections">
+							<!-- ko template: {name: $data.ViewTemplate} --><!-- /ko -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
