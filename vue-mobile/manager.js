@@ -1,0 +1,40 @@
+import _ from 'lodash'
+
+import EventBus from 'src/event-bus'
+import settings from './settings'
+
+export default {
+  moduleName: 'SettingsMobileWebclient',
+
+  requiredModules: [],
+
+  init (appdata) {
+    settings.init(appdata)
+  },
+
+  getNormalUserPages () {
+    const params = {}
+    EventBus.$emit('SettingsMobileWebclient::GetSettingsPageChildren', params)
+    const settingsPageChildren = _.isArray(params.settingsPageChildren) ? params.settingsPageChildren : []
+
+    return [
+      {
+        pageName: 'settings',
+        pagePath: '/settings',
+        pageComponent: () => import('./pages/Settings'),
+        pageHeaderComponent: () => import('./components/header/SettingsHeader'),
+        pageChildren: [
+          {
+            path: '/settings/menu',
+            component: () => import('./components/SettingsMenu'),
+          },
+          {
+            path: '/settings/paranoid-encryption',
+            component: () => import('./components/paranoid/ParanoidEncryption'),
+          },
+        ].concat(settingsPageChildren),
+      },
+    ]
+
+  },
+}
