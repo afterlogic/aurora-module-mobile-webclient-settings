@@ -5,57 +5,62 @@
         <component :is="tab.iconComponent" />
       </q-item-section>
       <q-item-section>
-        <q-item-label class="text-subtitle1 text-dark">{{ $t(tab.labelLangConst) }}</q-item-label>
+        <q-item-label class="text-subtitle1 text-dark">{{ $t(tab.tabNameLangConst) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <settings-menu-item :action="logout" label="Log out" icon="LogoutIcon" />
+    <q-item clickable @click="logout">
+      <q-item-section avatar>
+        <logout-icon></logout-icon>
+      </q-item-section>
+      <q-item-section>
+        <q-item-label class="text-subtitle1 text-dark">{{ $t('Log out') }}</q-item-label>
+      </q-item-section>
+    </q-item>
   </div>
 </template>
 
 <script>
+import { shallowRef, triggerRef } from 'vue'
+
 import _ from 'lodash'
+
 import EventBus from 'src/event-bus'
 
-import SettingsMenuItem from './main/SettingsMenuItem'
+import LogoutIcon from './icons/LogoutIcon'
 
 export default {
   name: 'SettingsMenu',
 
   components: {
-    SettingsMenuItem,
+    LogoutIcon,
   },
 
-  data: () => ({
-    settingsTabs: [],
-  }),
-
-  async mounted () {
+  setup() {
     const params = {
       settingsTabs:[
         {
           routerPath: '/settings',
-          labelLangConst: 'COREWEBCLIENT.LABEL_COMMON_SETTINGS_TABNAME',
+          tabNameLangConst: 'COREWEBCLIENT.LABEL_COMMON_SETTINGS_TABNAME',
           getIconComponent: () => import('./icons/CommonIcon'),
-        },
-        {
-          routerPath: '/settings/paranoid-encryption',
-          labelLangConst: 'COREPARANOIDENCRYPTIONWEBCLIENTPLUGIN.LABEL_SETTINGS_TAB',
-          getIconComponent: () => import('./icons/ParanoidIcon'),
         },
       ]
     }
     EventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', params)
-    const settingsTabs = _.isArray(params.settingsTabs) ? params.settingsTabs : []
-    for (const tab of settingsTabs) {
+    const settingsTabs = shallowRef(_.isArray(params.settingsTabs) ? params.settingsTabs : [])
+    for (const tab of settingsTabs.value) {
       if (_.isFunction(tab?.getIconComponent)) {
-        const component = await tab.getIconComponent()
-        if (component?.default) {
-          tab.iconComponent = component.default
-        }
-        delete tab.getIconComponent
+        tab.getIconComponent().then(component => {
+          if (component?.default) {
+            tab.iconComponent = component.default
+          }
+          delete tab.getIconComponent
+          triggerRef(settingsTabs)
+        })
       }
     }
-    this.settingsTabs = settingsTabs
+    return {
+      settingsTabs,
+    }
   },
 
   methods: {

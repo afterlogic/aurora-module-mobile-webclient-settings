@@ -28,10 +28,6 @@ export default {
             path: '/settings/menu',
             component: () => import('./components/SettingsMenu'),
           },
-          {
-            path: '/settings/paranoid-encryption',
-            component: () => import('./components/paranoid/ParanoidEncryption'),
-          },
         ].concat(settingsPageChildren),
       },
     ]

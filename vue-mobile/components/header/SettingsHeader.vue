@@ -30,6 +30,7 @@ import { settingsHeaderTittle } from 'src/utils/enums'
 
 export default {
   name: 'SettingsHeader',
+
   computed: {
     ...mapGetters('openPGP', ['currentKeys']),
     showBackAction() {
@@ -49,6 +50,7 @@ export default {
       return settingsHeaderTittle[patch[patch.length - 1]]
     },
   },
+
   methods: {
     onPreviousPath() {
       this.$router.back()
