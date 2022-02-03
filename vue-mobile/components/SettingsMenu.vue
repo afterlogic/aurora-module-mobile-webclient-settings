@@ -24,7 +24,8 @@ import { shallowRef, triggerRef } from 'vue'
 
 import _ from 'lodash'
 
-import EventBus from 'src/event-bus'
+import appApi from '/src/api/index'
+import eventBus from 'src/event-bus'
 
 import LogoutIcon from './icons/LogoutIcon'
 
@@ -45,7 +46,7 @@ export default {
         },
       ]
     }
-    EventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', params)
+    eventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', params)
     const settingsTabs = shallowRef(_.isArray(params.settingsTabs) ? params.settingsTabs : [])
     for (const tab of settingsTabs.value) {
       if (_.isFunction(tab?.getIconComponent)) {
@@ -65,7 +66,7 @@ export default {
 
   methods: {
     logout() {
-      this.$store.dispatch('user/logout')
+      appApi.user.logout()
     },
   },
 }

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import EventBus from 'src/event-bus'
+import eventBus from 'src/event-bus'
 import settings from './settings'
 
 export default {
@@ -14,7 +14,7 @@ export default {
 
   getNormalUserPages () {
     const params = {}
-    EventBus.$emit('SettingsMobileWebclient::GetSettingsPageChildren', params)
+    eventBus.$emit('SettingsMobileWebclient::GetSettingsPageChildren', params)
     const settingsPageChildren = _.isArray(params.settingsPageChildren) ? params.settingsPageChildren : []
 
     return [
