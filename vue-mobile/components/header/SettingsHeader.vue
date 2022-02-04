@@ -1,21 +1,10 @@
 <template>
   <div>
-    <q-toolbar
-      class="text-black flex justify-center"
-      style="height: 55px; font-size: 16px; padding: 0"
-    >
+    <q-toolbar class="text-black flex justify-center" style="height: 55px; font-size: 16px; padding: 0">
       <q-card-actions align="left" class="col-1">
-        <q-btn
-          v-if="showBackAction"
-          flat
-          color="black"
-          round
-          dense
-          icon="chevron_left"
-          @click="onPreviousPath"
-        />
+        <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
       </q-card-actions>
-      <div class="col-10 text-center text-bold">{{ header }}</div>
+      <div class="col-10 text-center text-bold">{{ headerText }}</div>
       <q-card-actions align="right" class="col-1">
         <q-btn flat color="black" round dense icon="more_horiz" />
       </q-card-actions>
@@ -26,29 +15,42 @@
 <script>
 import {mapGetters} from 'vuex'
 
-import { settingsHeaderTittle } from 'src/utils/enums'
+import eventBus from 'src/event-bus'
 
 export default {
   name: 'SettingsHeader',
 
+  data () {
+    return {
+      settingsHeaderTitles: []
+    }
+  },
+
   computed: {
-    ...mapGetters('openPGP', ['currentKeys']),
+    ...mapGetters('openpgpmobile', ['currentKeys']),
+
     showBackAction() {
-      const patch = this.$route.fullPath.split('/')
-      return patch[2] !== 'menu'
+      const path = this.$route.fullPath.split('/')
+      return path[2] !== 'menu'
     },
-    header() {
-      if (this.currentKeys) {
-        const keys = this.currentKeys.keys
-        if (keys.length === 1) {
-          if (this.currentKeys.type === 'external' || this.currentKeys.type === 'public') {
-            return 'View public key'
-          }
+
+    headerText () {
+      const matchedCount = this.$route.matched.length
+      if (matchedCount > 0) {
+        const lastMatched = this.$route.matched[matchedCount - 1]
+        const title = this.settingsHeaderTitles.find(title => title.settingsPath === lastMatched.path)
+        if (title) {
+          return title.settingsTitle
         }
       }
-      const patch = this.$route.fullPath.split('/')
-      return settingsHeaderTittle[patch[patch.length - 1]]
+      return 'Settings'
     },
+  },
+
+  mounted () {
+    const params = {}
+    eventBus.$emit('SettingsMobileWebclient::GetSettingsHeaderTitles', params)
+    this.settingsHeaderTitles = params.settingsHeaderTitles
   },
 
   methods: {
