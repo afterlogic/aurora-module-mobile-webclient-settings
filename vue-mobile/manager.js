@@ -22,13 +22,25 @@ export default {
         pageName: 'settings',
         pagePath: '/settings',
         pageComponent: () => import('./pages/Settings'),
-        pageHeaderComponent: () => import('./components/header/SettingsHeader'),
+        pageHeaderComponent: () => import('./components/SettingsHeader'),
+        pageFooterComponent: () => import('./components/SettingsFooter'),
         pageChildren: [
           {
-            path: '/settings/menu',
+            path: '/settings',
             component: () => import('./components/SettingsMenu'),
           },
         ].concat(settingsPageChildren),
+      },
+    ]
+  },
+
+  getPageFooterButtons () {
+    return [
+      {
+        pageName: 'settings',
+        pagePath: '/settings',
+        highlightPaths: ['/settings'],
+        getIconComponent: () => import('./components/icons/SettingsFooterIcon'),
       },
     ]
   },
