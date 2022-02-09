@@ -21,10 +21,9 @@
 
 <script>
 import { shallowRef, triggerRef } from 'vue'
-
 import _ from 'lodash'
 
-import appApi from '/src/api/index'
+import coreWebApi from '/src/api/core-web-api'
 import eventBus from 'src/event-bus'
 
 import LogoutIcon from './icons/LogoutIcon'
@@ -66,7 +65,7 @@ export default {
 
   methods: {
     logout() {
-      appApi.user.logout()
+      coreWebApi.logout()
     },
   },
 }
