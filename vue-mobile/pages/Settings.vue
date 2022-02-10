@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MainLayout from 'src/views/layouts/MainLayout'
+import MainLayout from 'src/layouts/MainLayout'
 
 export default {
   name: 'Settings',

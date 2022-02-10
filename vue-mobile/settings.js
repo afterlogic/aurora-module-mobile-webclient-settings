@@ -1,8 +1,8 @@
-// import typesUtils from 'src/utils/types'
+// import types from 'src/utils/types'
 
 class MailSettings {
   constructor (appData) {
-    // const mailData = typesUtils.pObject(appData.Mail)
+    // const mailData = types.pObject(appData.Mail)
   }
 }
 
