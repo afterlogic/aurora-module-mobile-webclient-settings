@@ -1,5 +1,5 @@
 <template>
-  <main-layout title="Settings">
+  <main-layout>
     <router-view />
   </main-layout>
 </template>

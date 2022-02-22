@@ -13,7 +13,7 @@
         <logout-icon></logout-icon>
       </q-item-section>
       <q-item-section>
-        <q-item-label class="text-subtitle1 text-dark">{{ $t('Log out') }}</q-item-label>
+        <q-item-label class="text-subtitle1 text-dark">{{ $t('COREWEBCLIENT.ACTION_LOGOUT') }}</q-item-label>
       </q-item-section>
     </q-item>
   </div>
