@@ -4,9 +4,13 @@
       <q-card-actions align="left" class="col-1">
         <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
       </q-card-actions>
-      <div class="col-10 text-center text-bold">{{ headerText }}</div>
+
+      <div class="col-10 text-center text-bold">
+        {{ headerText }}
+      </div>
+
       <q-card-actions align="right" class="col-1">
-        <q-btn flat color="black" round dense icon="more_horiz" />
+        <q-btn flat color="black" round dense icon="more_horiz" v-show="false" />
       </q-card-actions>
     </q-toolbar>
   </div>
@@ -31,7 +35,7 @@ export default {
 
     showBackAction() {
       const path = this.$route.fullPath.split('/')
-      return path[2] !== 'menu'
+      return path.length > 2
     },
 
     headerText () {
