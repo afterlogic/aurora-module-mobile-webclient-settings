@@ -10,7 +10,7 @@
       </div>
 
       <q-card-actions align="right" class="col-1">
-        <q-btn flat color="black" round dense icon="more_horiz" v-show="false" />
+        <actions-dropdown />
       </q-card-actions>
     </q-toolbar>
   </div>
@@ -18,11 +18,15 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import ActionsDropdown from "../../../OpenPgpMobileWebclient/vue-mobile/components/common/ActionsDropdown";
 
 import eventBus from 'src/event-bus'
 
 export default {
   name: 'SettingsHeader',
+  components: {
+    ActionsDropdown
+  },
 
   data () {
     return {
@@ -32,7 +36,13 @@ export default {
 
   computed: {
     ...mapGetters('openpgpmobile', ['currentKeys']),
-
+    actions() {
+      return [
+        {
+          name: 'Copy text'
+        }
+      ]
+    },
     showBackAction() {
       const path = this.$route.fullPath.split('/')
       return path.length > 2
@@ -47,7 +57,7 @@ export default {
           return title.settingsTitle
         }
       }
-      return 'Settings'
+      return this.$t('COREWEBCLIENT.HEADING_SETTINGS_TABNAME')
     },
   },
 
