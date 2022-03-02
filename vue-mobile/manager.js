@@ -1,5 +1,5 @@
 import _ from 'lodash'
-
+import { defineAsyncComponent } from 'vue'
 import eventBus from 'src/event-bus'
 import settings from './settings'
 
@@ -40,7 +40,7 @@ export default {
         pageName: 'settings',
         pagePath: '/settings',
         highlightPaths: ['/settings'],
-        getIconComponent: () => import('./components/icons/SettingsFooterIcon'),
+        iconComponent: defineAsyncComponent(() => import('./components/icons/SettingsFooterIcon')),
       },
     ]
   },
