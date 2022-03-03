@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <q-toolbar class="text-black flex justify-center" style="height: 55px; font-size: 16px; padding: 0">
-      <q-card-actions align="left" class="col-1">
-        <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
-      </q-card-actions>
+  <q-toolbar class="text-black flex justify-center" style="height: 55px; font-size: 16px; padding: 0">
+    <q-card-actions align="left" class="col-1">
+      <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
+    </q-card-actions>
 
-      <div class="col-10 text-center text-bold">
-        {{ headerText }}
-      </div>
+    <div class="col-10 text-center text-bold">
+      {{ headerText }}
+    </div>
 
-      <q-card-actions align="right" class="col-1">
-        <q-btn flat color="black" round dense icon="more_horiz" v-show="false" />
-      </q-card-actions>
-    </q-toolbar>
-  </div>
+    <q-card-actions align="right" class="col-1">
+      <q-btn flat color="black" round dense icon="more_horiz" v-show="false" />
+    </q-card-actions>
+  </q-toolbar>
 </template>
 
 <script>
@@ -63,5 +61,3 @@ export default {
   },
 }
 </script>
-
-<style scoped></style>
