@@ -4,7 +4,7 @@
       <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
     </q-card-actions>
 
-    <div class="col-10 text-center text-bold">
+    <div class="col-10 text-center header-title">
       {{ headerText }}
     </div>
 
