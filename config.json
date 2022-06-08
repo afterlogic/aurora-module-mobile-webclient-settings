@@ -1,36 +1,36 @@
 {
-  "Disabled": [
-    true,
-    "bool"
-  ],
-  "Disabled_Description": [
-    "",
-    "string"
-  ],
-  "IncludeInMobile": [
-    true,
-    "bool"
-  ],
-  "IncludeInMobile_Description": [
-    "",
-    "string"
-  ],
-  "IncludeInDesktop": [
-    false,
-    "bool"
-  ],
-  "IncludeInDesktop_Description": [
-    "",
-    "string"
-  ],
-  "RequireInMobile": [
-    [
-      "SettingsWebclient"
-    ],
-    "array"
-  ],
-  "RequireInMobile_Description": [
-    "",
-    "string"
-  ]
+	"Disabled": [
+		true,
+		"bool"
+	],
+	"Disabled_Description": [
+		"",
+		"string"
+	],
+	"IncludeInMobile": [
+		true,
+		"bool"
+	],
+	"IncludeInMobile_Description": [
+		"",
+		"string"
+	],
+	"IncludeInDesktop": [
+		false,
+		"bool"
+	],
+	"IncludeInDesktop_Description": [
+		"",
+		"string"
+	],
+	"RequireInMobile": [
+		[
+			"SettingsWebclient"
+		],
+		"array"
+	],
+	"RequireInMobile_Description": [
+		"",
+		"string"
+	]
 }
