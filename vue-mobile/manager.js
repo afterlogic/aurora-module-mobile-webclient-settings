@@ -8,11 +8,11 @@ export default {
 
   requiredModules: [],
 
-  init (appdata) {
+  init(appdata) {
     settings.init(appdata)
   },
 
-  getNormalUserPages () {
+  getNormalUserPages() {
     const params = {}
     eventBus.$emit('SettingsMobileWebclient::GetSettingsPageChildren', params)
     const settingsPageChildren = _.isArray(params.settingsPageChildren) ? params.settingsPageChildren : []
@@ -22,7 +22,6 @@ export default {
         pageName: 'settings',
         pagePath: '/settings',
         pageComponent: () => import('./pages/Settings'),
-        pageHeaderComponent: () => import('./components/SettingsHeader'),
         pageFooterComponent: () => import('./components/SettingsFooter'),
         pageChildren: [
           {
@@ -34,7 +33,7 @@ export default {
     ]
   },
 
-  getPageFooterButtons () {
+  getPageFooterButtons() {
     return [
       {
         pageName: 'settings',
