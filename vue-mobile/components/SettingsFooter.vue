@@ -3,7 +3,6 @@
 </template>
 
 <script>
-
 import DefaultFooter from 'src/components/main/DefaultFooter'
 
 export default {

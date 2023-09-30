@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+// import { mapState } from 'pinia'
 
 import eventBus from 'src/event-bus'
 
@@ -29,7 +29,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('openpgpmobile', ['currentKeys']),
+    // ...mapState('openpgpmobile', ['currentKeys']),
     showBackAction() {
       const path = this.$route.fullPath.split('/')
       return path.length > 2
@@ -39,7 +39,7 @@ export default {
       const matchedCount = this.$route.matched.length
       if (matchedCount > 0) {
         const lastMatched = this.$route.matched[matchedCount - 1]
-        const title = this.settingsHeaderTitles.find(title => title.settingsPath === lastMatched.path)
+        const title = this.settingsHeaderTitles?.find(title => title.settingsPath === lastMatched.path)
         if (title) {
           return title.settingsTitle
         }
