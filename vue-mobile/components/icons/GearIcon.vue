@@ -21,5 +21,3 @@ export default {
   name: 'GearIcon',
 }
 </script>
-
-<style scoped></style>

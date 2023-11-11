@@ -15,8 +15,6 @@
 </template>
 
 <script>
-// import { mapState } from 'pinia'
-
 import eventBus from 'src/event-bus'
 
 export default {
@@ -29,7 +27,6 @@ export default {
   },
 
   computed: {
-    // ...mapState('openpgpmobile', ['currentKeys']),
     showBackAction() {
       const path = this.$route.fullPath.split('/')
       return path.length > 2

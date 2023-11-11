@@ -10,7 +10,7 @@
     </q-item>
     <q-item clickable @click="logout">
       <q-item-section avatar>
-        <logout-icon></logout-icon>
+        <LogoutIcon />
       </q-item-section>
       <q-item-section>
         <q-item-label class="text-subtitle1 text-dark">{{ $t('COREWEBCLIENT.ACTION_LOGOUT') }}</q-item-label>

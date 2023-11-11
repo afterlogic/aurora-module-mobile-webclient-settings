@@ -1,5 +1,5 @@
 <template>
-  <default-footer></default-footer>
+  <DefaultFooter />
 </template>
 
 <script>

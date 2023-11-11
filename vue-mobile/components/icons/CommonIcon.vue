@@ -24,5 +24,3 @@ export default {
   name: 'CommonIcon',
 }
 </script>
-
-<style scoped></style>

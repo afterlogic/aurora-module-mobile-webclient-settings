@@ -21,5 +21,3 @@ export default {
   name: 'LogoutIcon',
 }
 </script>
-
-<style scoped></style>
