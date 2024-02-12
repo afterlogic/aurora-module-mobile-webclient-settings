@@ -37,12 +37,13 @@ export default {
 
   setup() {
     const params = {
-      settingsTabs:[
-        {
-          routerPath: '/settings',
-          tabNameLangConst: 'COREWEBCLIENT.LABEL_COMMON_SETTINGS_TABNAME',
-          getIconComponent: () => import('./icons/CommonIcon'),
-        },
+      settingsTabs: [
+        // @TODO move common tab definition to GetSettingsTabs subscibtion
+        // {
+        //   routerPath: '/settings',
+        //   tabNameLangConst: 'COREWEBCLIENT.LABEL_COMMON_SETTINGS_TABNAME',
+        //   getIconComponent: () => import('./icons/CommonIcon'),
+        // },
       ]
     }
     eventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', params)
