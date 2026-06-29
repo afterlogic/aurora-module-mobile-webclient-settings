@@ -8,6 +8,19 @@
         <q-item-label class="text-subtitle1 text-dark">{{ $t(tab.tabNameLangConst) }}</q-item-label>
       </q-item-section>
     </q-item>
+    <q-item
+      v-for="item in getVisiblePreLogoutItems()"
+      :key="item.labelLangConst"
+      clickable
+      @click="onPreLogoutItemClick(item)"
+    >
+      <q-item-section avatar>
+        <component :is="item.iconComponent" />
+      </q-item-section>
+      <q-item-section>
+        <q-item-label class="text-subtitle1 text-dark">{{ $t(item.labelLangConst) }}</q-item-label>
+      </q-item-section>
+    </q-item>
     <q-item clickable @click="logout">
       <q-item-section avatar>
         <LogoutIcon />
@@ -28,6 +41,20 @@ import eventBus from 'src/event-bus'
 
 import LogoutIcon from './icons/LogoutIcon'
 
+function loadIconComponents(items, itemsRef) {
+  for (const item of items) {
+    if (_.isFunction(item?.getIconComponent)) {
+      item.getIconComponent().then((component) => {
+        if (component?.default) {
+          item.iconComponent = component.default
+        }
+        delete item.getIconComponent
+        triggerRef(itemsRef)
+      })
+    }
+  }
+}
+
 export default {
   name: 'SettingsMenu',
 
@@ -36,35 +63,48 @@ export default {
   },
 
   setup() {
-    const params = {
-      settingsTabs: [
-        // @TODO move common tab definition to GetSettingsTabs subscibtion
-        // {
-        //   routerPath: '/settings',
-        //   tabNameLangConst: 'COREWEBCLIENT.LABEL_COMMON_SETTINGS_TABNAME',
-        //   getIconComponent: () => import('./icons/CommonIcon'),
-        // },
-      ]
+    const tabsParams = {
+      settingsTabs: [],
     }
-    eventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', params)
-    const settingsTabs = shallowRef(_.isArray(params.settingsTabs) ? params.settingsTabs : [])
-    for (const tab of settingsTabs.value) {
-      if (_.isFunction(tab?.getIconComponent)) {
-        tab.getIconComponent().then(component => {
-          if (component?.default) {
-            tab.iconComponent = component.default
-          }
-          delete tab.getIconComponent
-          triggerRef(settingsTabs)
-        })
-      }
+    eventBus.$emit('SettingsMobileWebclient::GetSettingsTabs', tabsParams)
+    const settingsTabs = shallowRef(_.isArray(tabsParams.settingsTabs) ? tabsParams.settingsTabs : [])
+    loadIconComponents(settingsTabs.value, settingsTabs)
+
+    const preLogoutParams = {
+      preLogoutItems: [],
     }
+    eventBus.$emit('SettingsMobileWebclient::GetSettingsPreLogoutItems', preLogoutParams)
+    const preLogoutItems = shallowRef(
+      _.isArray(preLogoutParams.preLogoutItems) ? preLogoutParams.preLogoutItems : []
+    )
+    loadIconComponents(preLogoutItems.value, preLogoutItems)
+
     return {
       settingsTabs,
+      preLogoutItems,
     }
   },
 
   methods: {
+    getVisiblePreLogoutItems() {
+      return this.preLogoutItems.filter((item) => {
+        if (_.isFunction(item?.getVisible)) {
+          return item.getVisible()
+        }
+        return item.visible !== false
+      })
+    },
+
+    onPreLogoutItemClick(item) {
+      if (_.isFunction(item?.onClick)) {
+        item.onClick(this.$router)
+        return
+      }
+      if (item.routerPath) {
+        this.$router.push(item.routerPath)
+      }
+    },
+
     logout() {
       coreWebApi.logout()
     },
