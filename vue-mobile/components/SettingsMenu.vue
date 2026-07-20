@@ -1,6 +1,13 @@
 <template>
-  <div class="q-mt-lg">
-    <q-item clickable v-for="tab in settingsTabs" @click="() => $router.push(tab.routerPath)">
+  <div class="q-mt-lg" data-test-id="settings-menu">
+    <q-item
+      data-test-id="settings-tab"
+      :data-settings-path="tab.routerPath"
+      clickable
+      v-for="tab in settingsTabs"
+      :key="tab.routerPath || tab.tabNameLangConst"
+      @click="() => $router.push(tab.routerPath)"
+    >
       <q-item-section avatar>
         <component :is="tab.iconComponent" />
       </q-item-section>
@@ -11,6 +18,8 @@
     <q-item
       v-for="item in getVisiblePreLogoutItems()"
       :key="item.labelLangConst"
+      data-test-id="settings-prelogout-item"
+      :data-settings-path="item.routerPath || ''"
       clickable
       @click="onPreLogoutItemClick(item)"
     >
@@ -21,7 +30,7 @@
         <q-item-label class="text-subtitle1 text-dark">{{ $t(item.labelLangConst) }}</q-item-label>
       </q-item-section>
     </q-item>
-    <q-item clickable @click="logout">
+    <q-item data-test-id="settings-logout" clickable @click="logout">
       <q-item-section avatar>
         <LogoutIcon />
       </q-item-section>

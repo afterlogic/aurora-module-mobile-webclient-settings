@@ -1,10 +1,23 @@
 <template>
   <q-toolbar class="text-black flex justify-center" style="height: 55px; font-size: 16px; padding: 0">
     <q-card-actions align="left" class="col-1">
-      <q-btn v-if="showBackAction" flat color="black" round dense icon="chevron_left" @click="onPreviousPath"/>
+      <q-btn
+        v-if="showBackAction"
+        data-test-id="settings-back"
+        flat
+        color="black"
+        round
+        dense
+        icon="chevron_left"
+        @click="onPreviousPath"
+      />
     </q-card-actions>
 
-    <div :class="headerAction ? 'col-9' : 'col-10'" class="text-center header-title">
+    <div
+      data-test-id="settings-header-title"
+      :class="headerAction ? 'col-9' : 'col-10'"
+      class="text-center header-title"
+    >
       {{ headerText }}
     </div>
 
