@@ -23,6 +23,7 @@
 
     <q-card-actions v-if="headerAction" align="right" class="col-2 settings-header__actions">
       <q-btn
+        data-test-id="settings-header-action"
         flat
         dense
         no-caps
