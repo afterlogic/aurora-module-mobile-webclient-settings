@@ -1,7 +1,7 @@
 const path = require('path')
 const { sharedHelper, moduleHelper, fixturePath } = require(path.join(
   process.env.AURORA_MOBILE_E2E_ROOT,
-  'e2e/helpers/paths'
+  'test/e2e/helpers/paths'
 ))
 const { test, expect } = require('@playwright/test')
 const { loginAsTestUser, step, attachScreenshot } = sharedHelper('login')
