@@ -21,9 +21,9 @@
       <AppHeaderButton
         data-test-id="settings-header-action"
         variant="text"
-        class="settings-header__action"
         :label="headerActionLabel"
         :loading="isHeaderActionSaving"
+        :disable="isHeaderActionDisabled"
         @click="onHeaderAction"
       />
     </q-card-actions>
@@ -47,7 +47,15 @@ export default {
       settingsHeaderTitles: [],
       settingsHeaderActions: [],
       isHeaderActionSaving: false,
+      isHeaderActionDisabled: false,
     }
+  },
+
+  watch: {
+    '$route.fullPath'() {
+      this.isHeaderActionDisabled = false
+      this.isHeaderActionSaving = false
+    },
   },
 
   computed: {
@@ -98,10 +106,12 @@ export default {
     this.settingsHeaderActions = actionsParams.settingsHeaderActions
 
     eventBus.$on('SettingsMobileWebclient::SetHeaderActionSaving', this.setHeaderActionSaving)
+    eventBus.$on('SettingsMobileWebclient::SetHeaderActionDisabled', this.setHeaderActionDisabled)
   },
 
   beforeUnmount () {
     eventBus.$off('SettingsMobileWebclient::SetHeaderActionSaving', this.setHeaderActionSaving)
+    eventBus.$off('SettingsMobileWebclient::SetHeaderActionDisabled', this.setHeaderActionDisabled)
   },
 
   methods: {
@@ -118,6 +128,10 @@ export default {
     setHeaderActionSaving (isSaving) {
       this.isHeaderActionSaving = !!isSaving
     },
+
+    setHeaderActionDisabled (isDisabled) {
+      this.isHeaderActionDisabled = !!isDisabled
+    },
   },
 }
 </script>
@@ -125,13 +139,6 @@ export default {
 <style scoped>
 .settings-header__actions {
   justify-content: flex-end;
-  padding-right: 8px;
-}
-
-.settings-header__action {
-  font-size: 14px;
-  font-weight: 500;
-  min-height: 28px;
-  padding: 0 4px;
+  padding-right: 16px;
 }
 </style>
