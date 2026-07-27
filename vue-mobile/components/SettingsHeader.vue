@@ -1,13 +1,9 @@
 <template>
   <q-toolbar class="text-black flex justify-center" style="height: 55px; font-size: 16px; padding: 0">
     <q-card-actions align="left" class="col-1">
-      <q-btn
+      <AppHeaderButton
         v-if="showBackAction"
         data-test-id="settings-back"
-        flat
-        color="black"
-        round
-        dense
         icon="chevron_left"
         @click="onPreviousPath"
       />
@@ -22,12 +18,9 @@
     </div>
 
     <q-card-actions v-if="headerAction" align="right" class="col-2 settings-header__actions">
-      <q-btn
+      <AppHeaderButton
         data-test-id="settings-header-action"
-        flat
-        dense
-        no-caps
-        color="primary"
+        variant="text"
         class="settings-header__action"
         :label="headerActionLabel"
         :loading="isHeaderActionSaving"
@@ -40,9 +33,14 @@
 
 <script>
 import eventBus from 'src/event-bus'
+import AppHeaderButton from 'src/components/common/AppHeaderButton'
 
 export default {
   name: 'SettingsHeader',
+
+  components: {
+    AppHeaderButton,
+  },
 
   data () {
     return {
