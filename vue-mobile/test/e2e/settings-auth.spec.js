@@ -103,48 +103,57 @@ test.describe('Mobile settings auth surfaces', () => {
         timeout: 30000,
       })
       const enable = page.getByTestId('settings-openpgp-enable-mail')
+      const save = page.getByTestId('settings-header-action')
       test.skip(
         (await enable.count()) === 0,
         'Enable OpenPGP in mail control not shown (Mail unavailable)'
       )
-      const before =
-        (await enable.getAttribute('aria-checked')) === 'true' ||
-        (await enable.evaluate((el) => el.classList.contains('q-checkbox--truthy')))
-      await enable.click()
+      test.skip((await save.count()) === 0, 'No Save action on OpenPGP header')
+
+      // OpenPgp.mounted() copies getOpenPgpSettings() into data (defaults are
+      // false). Clicking before hydration flips the box, then mount resets it
+      // and hasChanges stays false → Save stays disabled.
+      await expect(save).toBeDisabled({ timeout: 15000 })
       await expect
-        .poll(async () => {
-          const checked =
-            (await enable.getAttribute('aria-checked')) === 'true' ||
-            (await enable.evaluate((el) =>
-              el.classList.contains('q-checkbox--truthy')
-            ))
-          return checked
-        })
-        .not.toBe(before)
+        .poll(
+          async () => {
+            const a = await enable.isChecked()
+            await page.waitForTimeout(200)
+            return (await enable.isChecked()) === a ? a : null
+          },
+          { timeout: 15000, intervals: [200, 400] }
+        )
+        .not.toBeNull()
+
+      const before = await enable.isChecked()
+      await enable.setChecked(!before)
+      await expect(enable).toBeChecked({ checked: !before })
+      // Real dirty signal for this screen — do not click Save while disabled.
+      await expect(save).toBeEnabled({ timeout: 15000 })
       console.log(`  → Enable OpenPGP in mail toggled from ${before}`)
       await attachScreenshot(page, 'settings-auth-pgp-toggle')
     })
 
     await step('Save via header action', async () => {
       const save = page.getByTestId('settings-header-action')
-      test.skip((await save.count()) === 0, 'No Save action on OpenPGP header')
-      await clickReady(save)
+      await expect(save).toBeEnabled({ timeout: 10000 })
+      await save.click()
+      await expect(save).toBeDisabled({ timeout: 30000 })
       await expect(page.getByTestId('settings-openpgp')).toBeVisible({
         timeout: 30000,
       })
-      await page.waitForTimeout(800)
       console.log('  → Save clicked')
       await attachScreenshot(page, 'settings-auth-pgp-saved')
     })
 
     await step('Restore previous toggle value', async () => {
       const enable = page.getByTestId('settings-openpgp-enable-mail')
-      await enable.click()
       const save = page.getByTestId('settings-header-action')
-      if ((await save.count()) > 0) {
-        await clickReady(save)
-        await page.waitForTimeout(800)
-      }
+      const current = await enable.isChecked()
+      await enable.setChecked(!current)
+      await expect(save).toBeEnabled({ timeout: 15000 })
+      await save.click()
+      await expect(save).toBeDisabled({ timeout: 30000 })
       await goBackToSettingsMenu(page)
     })
   })
