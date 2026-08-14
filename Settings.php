@@ -13,7 +13,6 @@ use Aurora\System\SettingsProperty;
  * @property bool $Disabled
  * @property bool $IncludeInMobile
  * @property bool $IncludeInDesktop
- * @property array $RequireInMobile
  */
 
 class Settings extends \Aurora\System\Module\Settings
@@ -38,15 +37,7 @@ class Settings extends \Aurora\System\Module\Settings
                 "bool",
                 null,
                 "If true, the module is used in desktop version of the interface",
-            ),
-            "RequireInMobile" => new SettingsProperty(
-                [
-                    "SettingsWebclient"
-                ],
-                "array",
-                null,
-                "List of other modules required by this module",
-            ),
+            )
         ];
     }
 }
